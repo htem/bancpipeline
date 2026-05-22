@@ -1,0 +1,1 @@
+-flow == afferent, super_class == ascending, cell_class == ascending_neuron

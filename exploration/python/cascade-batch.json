@@ -1,0 +1,142 @@
+[
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "ALLN",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_class",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "ALPN",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_class",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "LHLN",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_class",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "KCg",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "KCab",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "KCapbp",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "KCab-p",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "KCg-d",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "PPL",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "PAM",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "MBON",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_type",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "LHCENT",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_class",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "CX",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_class",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    },
+    {
+        "synaptic_threshold": 25,
+        "mask_A": "olfactory",
+        "mask_B": "descending",
+        "mask_key_A": "modality",
+        "mask_key_B": "cell_class",
+        "max_timesteps": 11,
+        "activation_threshold": 0.01,
+        "n_iterations": 1000
+    }
+]
