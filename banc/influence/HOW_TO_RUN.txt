@@ -1,0 +1,90 @@
+================================================================
+ banc-build-influence.R — how to run
+================================================================
+
+The build script computes all-to-all influence scores for the
+proofread BANC neuron set and writes them as partitioned parquet
+chunks to:
+
+    {save.path}/banc_{version}/influence/all_to_all/chunk_NNNN.parquet
+
+It supports two run modes: single un-sharded job, or N parallel
+SLURM array tasks (sharded). Sharded mode is the fast path.
+
+----------------------------------------------------------------
+ 1. Single un-sharded run (default behaviour)
+----------------------------------------------------------------
+
+    sbatch o2_banc_influence.sh
+
+One job processes every batch and runs the GCS sync at the end.
+This is the simplest invocation but the slowest.
+
+----------------------------------------------------------------
+ 2. Sharded run (N parallel SLURM array tasks)
+----------------------------------------------------------------
+
+Submit all shards at once via a SLURM job array. Shard 0 builds
+the SQLite if it does not yet exist; shards 1..N-1 wait up to 4h
+for it to appear, so submission order does not matter.
+
+    sbatch --array=0-3 --export=ALL,BANC_INFLUENCE_SHARD_TOTAL=4 \
+        o2_banc_influence.sh
+
+Each array task processes the batches where:
+
+    (b - 1) %% BANC_INFLUENCE_SHARD_TOTAL == BANC_INFLUENCE_SHARD_IDX
+
+so chunk_NNNN.parquet writes are disjoint across shards — no
+collisions, no wasted compute. SLURM sets BANC_INFLUENCE_SHARD_IDX
+from SLURM_ARRAY_TASK_ID automatically.
+
+After all shards finish, run the validate + upload step:
+
+    Rscript banc/influence/banc-sync-influence.R
+
+The sync script:
+  * inventories chunk_NNNN.parquet files and warns about gaps,
+  * spot-checks a random chunk for valid upstream_ids / non-zero
+    influence scores,
+  * runs gsutil -m rsync -r to the versioned GCS path.
+
+----------------------------------------------------------------
+ 3. Caveats
+----------------------------------------------------------------
+
+* Do NOT mix sharded and un-sharded runs against the same output
+  directory. An un-sharded run will happily recompute and rewrite
+  chunks the shards already produced — wasted compute, and if the
+  shards are still running you will re-introduce write races.
+
+* Per-task memory: each SLURM array task initialises its own
+  Python InfluenceCalculator, so an N-way shard uses ~N x 64 GB
+  of RAM cluster-wide. The matrix size per process is unchanged,
+  so the existing --mem=64G per task is still appropriate.
+
+* Switching mid-flight: if a single un-sharded job is currently
+  running and you want to switch to sharded mode, let it finish
+  (or cancel it) before launching the array — otherwise its in-
+  flight chunks would race with new shard writes for the same
+  indices.
+
+* Concurrency safety without the env vars: do NOT just sbatch
+  banc-build-influence.R multiple times. Without
+  BANC_INFLUENCE_SHARD_TOTAL set, all jobs march through the
+  batches in lockstep, racing on chunk_NNNN.parquet writes
+  (last-writer-wins, possible parquet corruption). Sharding via
+  the env vars is the only safe way to run in parallel.
+
+----------------------------------------------------------------
+ 4. Files in this folder
+----------------------------------------------------------------
+
+  banc-build-influence.R   main build script (sharding-aware)
+  banc-sync-influence.R    post-shard validate + GCS rsync
+  HOW_TO_RUN.txt           this file
+
+The SLURM submit script lives at the repo root:
+
+  o2_banc_influence.sh     reads BANC_INFLUENCE_SHARD_* env vars
+                           and SLURM_ARRAY_TASK_ID
