@@ -90,3 +90,5 @@ deform/*/output/
 !data/optic_lobe/*.log
 !data/whole_brain_alignment/*.log
 !data/scheduled_runs/*.log
+# --- Intermediate / handoff working docs (not for public release) ---
+alignment/RENAME_NOTES.md
