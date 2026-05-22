@@ -10,6 +10,7 @@
   "contributors": [
     {"type": "ContactPerson", "name": "Phelps, Jasper S.", "orcid": "0000-0001-8033-258X", "affiliation": "Harvard Medical School"},
     {"type": "ContactPerson", "name": "Yang, Helen H.", "orcid": "0000-0001-5140-9664", "affiliation": "Harvard Medical School"},
+    {"type": "ContactPerson", "name": "Matsliah, Arie", "orcid": "0009-0001-4490-2028", "affiliation": "Princeton Neuroscience Institute"},
     {"type": "ContactPerson", "name": "Perlman, Eric", "orcid": "0000-0001-5542-1302", "affiliation": "Yikes LLC"},
     {"type": "ContactPerson", "name": "Wilson, Rachel I.", "orcid": "0000-0001-8573-9266", "affiliation": "Harvard Medical School"},
     {"type": "ContactPerson", "name": "Lee, Wei-Chung Allen", "orcid": "0000-0002-4618-295X", "affiliation": "Boston Children's Hospital, Harvard Medical School"}
