@@ -5,7 +5,10 @@
   "upload_type": "software",
   "access_right": "open",
   "creators": [
-    {"name": "Bates, Alexander Shakeel", "orcid": "0000-0002-1195-0445", "affiliation": "Harvard Medical School"}
+    {"name": "Bates, Alexander Shakeel", "orcid": "0000-0002-1195-0445", "affiliation": "Harvard Medical School"},
+    {"name": "Phelps, Jasper S.", "orcid": "0000-0001-8033-258X", "affiliation": "Harvard Medical School"},
+    {"name": "Yang, Helen H.", "orcid": "0000-0001-5140-9664", "affiliation": "Harvard Medical School"},
+    {"name": "Perlman, Eric", "orcid": "0000-0001-5542-1302", "affiliation": "Yikes LLC"}
   ],
   "keywords": [
     "connectomics", "Drosophila", "BANC", "FAFB", "MANC",
