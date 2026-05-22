@@ -350,7 +350,7 @@ GPL-3 — see [`LICENSE`](LICENSE).
 
 ## Acknowledgements
 
-This codebase was led by [Alexander Shakeel Bates](https://scholar.google.com/citations?user=BOVTiXIAAAAJ&hl=en) ([ORCID 0000-0002-1195-0445](https://orcid.org/0000-0002-1195-0445)) in the lab of [Rachel Wilson](https://neuro.hms.harvard.edu/faculty-staff/rachel-wilson) at Harvard Medical School. `bancpipeline` was developed by the BANC consortium under the leadership of the Wilson Lab (HMS) and the Lee Lab (Princeton, GitHub org [`htem`](https://github.com/htem)), with contributions from the FlyWire and CAVE teams. EM proofreading was performed by SixEleven (Davao City, Philippines), Aelysia LTD (Bristol, UK), and a community of academic neurobiologists and citizen scientists.
+This codebase was led by [Alexander Shakeel Bates](https://scholar.google.com/citations?user=BOVTiXIAAAAJ&hl=en) in the lab of [Rachel Wilson](https://neuro.hms.harvard.edu/faculty-staff/rachel-wilson) at Harvard Medical School, and working with [Wei-Chung Allen Lee](https://www.lee.hms.harvard.edu/). `bancpipeline` was developed by the BANC consortium under the leadership of the Wilson Lab (HMS) and the Lee Lab (Princeton, GitHub org [`htem`](https://github.com/htem)), with contributions from the FlyWire and CAVE teams. EM proofreading was performed by SixEleven (Davao City, Philippines), Aelysia LTD (Bristol, UK), and a community of academic neurobiologists and citizen scientists.
 
 ### Computing infrastructure
 
