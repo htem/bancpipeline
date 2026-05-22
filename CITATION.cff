@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use bancpipeline outputs, please cite the BANC paper."
+title: bancpipeline
+abstract: >-
+  Data pre-processing pipeline for the BANC (Brain And Nerve Cord)
+  connectome, including skeletonization, cross-dataset neuron matching
+  (NBLAST + connectivity), axon-dendrite splitting, neuropil assignment to
+  synapses, neurotransmitter and metric enrichment, and consolidated
+  per-neuron metadata. Produces the analysis-ready data released alongside
+  Bates, Phelps, Kim, Yang et al. (2025).
+type: software
+license: GPL-3.0
+url: "https://github.com/htem/bancpipeline"
+repository-code: "https://github.com/htem/bancpipeline"
+authors:
+  - family-names: Bates
+    given-names: Alexander Shakeel
+    affiliation: "Harvard Medical School (Wilson Lab)"
+    orcid: "https://orcid.org/0000-0002-1195-0445"
+preferred-citation:
+  type: article
+  title: Distributed control circuits across a brain-and-cord connectome
+  authors:
+    - family-names: Bates
+      given-names: Alexander S.
+    - family-names: Phelps
+      given-names: Jasper S.
+    - family-names: Kim
+      given-names: Minsu
+    - family-names: Yang
+      given-names: Helen H.
+    - name: "the BANC-FlyWire Consortium"
+  journal: bioRxiv
+  year: 2025
+  doi: 10.1101/2025.07.31.667571
+identifiers:
+  - type: doi
+    value: 10.7910/DVN/7WTH1N
+    description: Harvard Dataverse archive of bancpipeline outputs

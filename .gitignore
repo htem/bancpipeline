@@ -1,0 +1,92 @@
+# ------------------------------------------------------------------------------
+# bancpipeline .gitignore
+#
+# Philosophy: code in, data and derived artefacts out. Pipeline outputs
+# (feathers, parquets, meshes, skeletons, large CSVs) live on GCS and the
+# Harvard Dataverse — not in git. Re-runnable from CAVE.
+# ------------------------------------------------------------------------------
+
+# --- R / RStudio session state ---
+.Rhistory
+.Rapp.history
+.RData
+.Rproj.user/
+.httr-oauth
+
+# --- caches and per-tool junk ---
+*-Ex.R
+/*.tar.gz
+/*.Rcheck/
+vignettes/*.html
+vignettes/*.pdf
+*.utf8.md
+*.knit.md
+/*_cache/
+/cache/
+**/__pycache__/
+*.py[cod]
+.DS_Store
+**/.DS_Store
+
+# --- SLURM / job artefacts ---
+jobs/
+logs/
+*.err
+*.out
+*.log
+*.gpulog
+**/slurm*.out
+
+# --- temporary / scratch ---
+*make.log
+*make.err
+*flag.txt
+**/cascade_results/
+
+# --- Claude Code working files (not part of the public pipeline) ---
+/.claude
+.claude.json
+.claude.local.json
+CLAUDE.md
+
+# --- Internal working docs (kept locally, not part of the public pipeline) ---
+tasks.md
+update.md
+upgrade_plan.md
+STATUS.md
+
+# --- Pipeline outputs and cached intermediates (regenerate from CAVE) ---
+# Tabular outputs
+*.feather
+*.parquet
+*.rda
+*.rds
+*.RData
+*.sqlite
+
+# Mesh / skeleton / volume formats
+*.obj
+*.swc
+*.vtk
+*.zip
+*.xml
+*.p
+
+# Large directories that hold only generated artefacts
+data/
+images/
+figures/
+inst/extdata/
+brain-and-nerve-cord_exports/
+tracing/
+setup/imported_meshes/
+
+# Deformetrica run dirs (the deform/ source code stays; runtime outputs go)
+/deformetrica/
+deform/output/
+deform/*/output/
+
+# --- Selective un-ignores: keep alignment run logs visible ---
+!data/optic_lobe/*.log
+!data/whole_brain_alignment/*.log
+!data/scheduled_runs/*.log

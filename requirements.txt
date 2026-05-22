@@ -1,0 +1,309 @@
+# bancpipeline — runtime requirements
+#
+# The pipeline runs on HMS-O2 with the module preamble in `o2/o2_env.sh`
+# (gcc/14.2.0, R/4.4.2, cmake/3.31.2, java/jdk-23.0.1). Most stages are
+# driven from R; Python is invoked under the hood via `reticulate` and
+# via standalone scripts (`alignment/banc-alignment-*.py`,
+# `banc/clustering/banc-spectral-clustering.py`, `banc/influence/*.py`).
+#
+# This file documents the exact versions used to produce the v888 data
+# release. Other versions may work; only the listed combinations are
+# tested end-to-end.
+
+# =============================================================================
+# Interpreter versions
+# =============================================================================
+
+# R       4.4.2
+# Python  3.11+   (3.13.1 used on O2; 3.12 known good)
+
+# =============================================================================
+# R packages
+# =============================================================================
+
+# Core data + I/O
+arrow                  16.1.0
+bit64                  4.6.0.1
+data.table             1.16.2
+DBI                    1.3.0
+RSQLite                2.4.6
+readr                  2.1.5
+readxl                 1.4.1
+jsonlite               2.0.0
+
+# tidyverse + manipulation
+dplyr                  1.2.1
+glue                   1.8.0
+purrr                  1.2.1
+rlang                  1.1.7
+stringr                1.6.0
+tibble                 3.3.1
+tidyr                  1.3.1
+tidyverse              1.3.2
+
+# Plotting (used for QC + the inst/images/ figure outputs)
+ggplot2                4.0.0.9000
+ggrepel                0.9.5
+RColorBrewer           1.1.3
+scales                 1.4.0
+pheatmap               1.0.12
+gridExtra              2.3
+
+# Stats / clustering / dim-reduction
+MASS                   7.3.58.1
+Matrix                 1.6.1.1
+matrixStats            0.62.0
+uwot                   0.1.14
+RSpectra               0.16.1
+mclust                 6.0.1
+dendextend             1.17.1
+dynamicTreeCut         1.63.1
+
+# Graph / networks
+igraph                 1.5.1
+
+# 3D meshes / geometry
+alphashape3d           1.3.1
+nabor                  0.5.0
+Rvcg                   0.22.2
+
+# Connectomics-specific (natverse + lab forks)
+nat                    1.11.0
+nat.flybrains          1.8.2
+nat.nblast             1.6.7
+nat.templatebrains     1.2.1
+natcpp                                    # https://github.com/natverse/natcpp
+fafbseg                0.15.5
+malevnc                0.3.3
+hemibrainr             # https://github.com/natverse/hemibrainr
+bancr                  0.3.0              # https://github.com/natverse/bancr
+
+# Python interop
+reticulate             1.34.0
+
+# Cloud + Google
+curl                   7.0.0
+googledrive            2.1.1
+googlesheets4          1.1.1
+
+# Parallel
+foreach                1.5.2
+doParallel             1.0.17
+doSNOW                 1.0.20
+
+# Utilities
+callr                  3.7.6
+devtools               2.4.5
+pbapply                1.7.4
+progress               1.2.3
+R.utils                2.12.2
+
+# =============================================================================
+# Python packages
+# =============================================================================
+
+# Scientific stack
+numpy                  2.0.2
+pandas                 2.2.3
+scipy                  1.17.0
+matplotlib             3.10.8
+scikit-learn           1.8.0
+pyarrow                                    # latest; required for parquet I/O
+
+# Graph / clustering
+python-igraph          1.0.0
+umap-learn             0.5.11
+
+# Connectomics infra
+caveclient             8.0.1
+cloud-volume           12.9.2
+navis                                      # latest; CAVE + neuron object API
+
+# Influence (alignment + influence pipelines use these via the
+# ConnectomeInfluenceCalculator / influencer companion packages)
+petsc4py                                   # built against PETSc
+slepc4py                                   # built against SLEPc
+
+# GCS
+gcsfs                  2025.12.0
+
+# Plotting (alignment validation HTMLs)
+plotly                 5.20.0
+
+# =============================================================================
+# HMS O2 (the platform this pipeline runs on)
+# =============================================================================
+#
+# O2 is HMS Research Computing's shared Linux cluster (SLURM workload manager,
+# LMOD module system, Lustre + NFS storage). The canonical reference is the
+# official user guide:
+#
+#   https://harvardmed.atlassian.net/wiki/spaces/O2/overview?homepageId=1586790623
+#
+# Everything below is bancpipeline-specific; consult the wiki for cluster-wide
+# policy, hardware refresh schedules, and current quotas.
+#
+# Access & shells
+# ---------------
+# - Login:        `ssh <eCommons>@o2.hms.harvard.edu`. Login nodes are for
+#                 file edits / job submission ONLY — do NOT run computation
+#                 there (the cluster will throttle / kill long-running login
+#                 processes).
+# - Interactive:  `srun --pty -p interactive -t 0-12:00 --mem 8G bash` for an
+#                 interactive shell on a compute node. Two-job concurrency cap.
+# - Module env:   `module load gcc/14.2.0 R/4.4.2 cmake/3.31.2 java/jdk-23.0.1`,
+#                 wrapped by `o2/o2_env.sh` — every sbatch script sources it.
+#
+# Partitions (request walltime + memory explicitly; default mem is 1 GB)
+# ---------------------------------------------------------------------
+#   Partition    Max walltime    Max cores/job    Notes
+#   short        12 h            20               first-pass jobs, fast queue
+#   medium       5 d             20               most of our recurring chain
+#   long         30 d            20               rare; for >5 d batches
+#   interactive  12 h            20               2-job cap; for `srun --pty`
+#   priority     30 d            20               2-job cap; preempts queue
+#   mpi          5 d             640              MPI-only, 20-core minimum
+#   transfer     30 d            4                GCS / file-share rsync
+#
+# Aim for ~125 % of expected runtime to absorb variance; SLURM will kill at
+# the wall.
+#
+# Storage paths
+# -------------
+# - `/home/<user>/`                           ~100 GB per user; code lives here
+#                                              (this repo at /home/ab714/bancpipeline/).
+# - `/n/data1/hms/neurobio/wilson/banc/`      lab working data; `banc.save.path`
+#                                              in `banc/banc-startup.R` (~TB scale).
+# - `/n/data1/hms/neurobio/wilson/connectomes/banc/banc_<ver>/`
+#                                              versioned published outputs;
+#                                              `banc.versioned.save.path`.
+# - `/n/files/Neurobio/wilsonlab/banc/`       lab file share (rsync'd via
+#                                              `o2/production/o2_banc_results.sh`).
+# - `/n/scratch/users/<eCommons>/`            scratch (30-day file lifetime).
+# - GCS: `gs://lee-lab_brain-and-nerve-cord-fly-connectome/` for the public mirror.
+#
+# Job submission via SLURM
+# ------------------------
+# All recurring work is submitted with `sbatch <script>.sh` from the repo
+# root. Scripts live under `o2/` and are partitioned by purpose:
+#
+#   o2/production/   load-bearing recurring chain (updateids, metrics,
+#                    synapses, nblast, data_push, update, …).
+#   o2/alignment/    cross-dataset cell-type alignment runs
+#                    (prep + cosine + ensemble + ntac + push, per dataset version).
+#   o2/oneshots/     diagnostics, sweeps, smoketests, one-time rebuilds.
+#
+# Every sbatch script has the same skeleton — the `#SBATCH` header pins
+# resources, then `cd` + `source` set up the environment, then `Rscript`
+# (or `python`) does the work:
+#
+#     #!/bin/bash
+#     #SBATCH -c 12                                # cores
+#     #SBATCH -t 0-11:59                           # walltime D-HH:MM
+#     #SBATCH -p short                             # partition
+#     #SBATCH --mem-per-cpu=10G                    # or --mem=XG (total)
+#     #SBATCH -o /home/ab714/bancpipeline/jobs/banc_<job>_%j.out
+#     #SBATCH -e /home/ab714/bancpipeline/jobs/banc_<job>_%j.err
+#
+#     set -euo pipefail
+#     cd /home/ab714/bancpipeline
+#     source /home/ab714/bancpipeline/o2/o2_env.sh   # absolute path: SLURM
+#                                                   # spools the script to
+#                                                   # /var/spool/slurmd/...,
+#                                                   # so $(dirname "$0") is
+#                                                   # NOT the repo path.
+#     Rscript banc/<stage>/<script>.R --source v2 ...
+#
+# The `jobs/` folder (auto-populated)
+# -----------------------------------
+# The `#SBATCH -o` / `-e` paths above route stdout and stderr to per-job
+# log files under `jobs/`:
+#
+#   jobs/banc_<job>_<JOBID>.out      stdout from the Rscript / python call
+#   jobs/banc_<job>_<JOBID>.err      stderr (R loads, package warnings,
+#                                    Python tracebacks)
+#
+# `%j` is SLURM's placeholder for the job ID. The folder accumulates over
+# time (hundreds of files at present) — prune periodically with
+# `find jobs -name '*.{out,err}' -mtime +30 -delete`, or zip-and-archive
+# anything you want to keep. The folder is gitignored.
+#
+# Monitoring + control
+# --------------------
+#   squeue -u $USER                              list your jobs
+#   squeue -u $USER --format='%.10i %.9P %.30j %.2t %.10M %R'
+#   sacct -j <jobid> --format=JobID,State,ExitCode,Elapsed,MaxRSS -X
+#   scancel <jobid>                              cancel
+#   scontrol show job <jobid> | grep -E 'Command|StdOut'
+#                                                resolve script path + log paths
+#
+# Recurring chains (cron-suitable; see o2/README.md)
+# --------------------------------------------------
+#   Daily update:     o2_banc_updateids.sh → o2_banc_nblast.sh
+#   Full v888 rebuild: o2/oneshots/o2_banc_v888_rebuild.sh (~250 GB / priority)
+#   Influence:        o2_banc_influence.sh → o2_banc_aggregate_influence.sh
+#                     (SLURM-array shard then aggregate)
+#   Alignment:        alignment/o2_banc_wb_prep_v888v2.sh
+#                     → alignment/o2_banc_wb_production_v888v2.sh
+#                     → alignment/o2_banc_wb_push.sh
+#
+# Currently `ab714` has no active crontab; jobs are launched manually or
+# from the `o2_banc_update.sh` orchestrator.
+#
+# Common pitfalls
+# ---------------
+# - Default memory is 1 GB; always set `--mem-per-cpu=XG` or `--mem=XG`.
+# - Login nodes throttle long-running R / Python sessions — use srun or
+#   sbatch even for "quick" experiments.
+# - Priority partition has a 2-job cap; one stuck job blocks the other.
+# - SLURM spools the script to /var/spool/slurmd; relative paths from the
+#   spool dir won't resolve. Always source `o2_env.sh` by absolute path
+#   and `cd` to the repo root before invoking `Rscript`.
+#
+# =============================================================================
+# Install recipe
+# =============================================================================
+#
+# 1. On HMS-O2
+#    ---------
+#    The module preamble lives at o2/o2_env.sh and pins R 4.4.2 + the GCC /
+#    cmake / java versions needed by arrow + the natverse mesh tools. R
+#    packages install into ~/R/x86_64-pc-linux-gnu-library/4.4. Python
+#    packages live in a conda env (typically ~/.local/share/r-miniconda).
+#
+#    First-time setup:
+#    ```bash
+#    source o2/o2_env.sh
+#    R -e 'install.packages(c(
+#        "arrow","bit64","data.table","DBI","RSQLite","readr","readxl","jsonlite",
+#        "dplyr","glue","purrr","rlang","stringr","tibble","tidyr","tidyverse",
+#        "ggplot2","ggrepel","RColorBrewer","scales","pheatmap","gridExtra",
+#        "MASS","Matrix","matrixStats","uwot","RSpectra","mclust","dendextend",
+#        "dynamicTreeCut","igraph",
+#        "alphashape3d","nabor","Rvcg",
+#        "reticulate","curl","googledrive","googlesheets4",
+#        "foreach","doParallel","doSNOW",
+#        "callr","devtools","pbapply","progress","R.utils"
+#      ), repos = "https://cloud.r-project.org")'
+#    R -e 'devtools::install_github(c(
+#        "natverse/nat","natverse/nat.flybrains","natverse/nat.nblast",
+#        "natverse/nat.templatebrains","natverse/natcpp","natverse/fafbseg",
+#        "natverse/malevnc","natverse/hemibrainr",
+#        "natverse/bancr"
+#      ))'
+#    ```
+#
+# 2. Off-O2 (local dev)
+#    -------------------
+#    Same R install commands. Python via conda or the system interpreter.
+#    The pipeline expects the BANC working data tree to live at
+#    `$BANC_LOCAL_ROOT` or O2-default paths set in `banc/banc-startup.R`.
+#    Off-O2 most stages will hit "data missing" — use the GCS fetch path
+#    (`--source gcs` flags) where supported.
+#
+# 3. Smoke test
+#    ----------
+#    ```bash
+#    source o2/o2_env.sh   # on O2 only
+#    Rscript -e 'source("banc/banc-startup.R"); cat("startup OK\n")'
+#    ```
