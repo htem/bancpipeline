@@ -1,12 +1,13 @@
 # bancpipeline
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Paper: bioRxiv](https://img.shields.io/badge/Paper-bioRxiv-red)](https://doi.org/10.1101/2025.07.31.667571)
+[![Nature (open access)](https://img.shields.io/badge/Nature-10.1038%2Fs41586--026--10735--w-006400)](https://doi.org/10.1038/s41586-026-10735-w)
+[![Paper: bioRxiv v3](https://img.shields.io/badge/bioRxiv-2025.07.31.667571v3-bd2c00)](https://www.biorxiv.org/content/10.1101/2025.07.31.667571v3)
 [![Data: Harvard Dataverse](https://img.shields.io/badge/Data-Harvard%20Dataverse-orange)](https://doi.org/10.7910/DVN/7WTH1N)
 
-Data pre-processing pipeline for the **BANC** (Brain And Nerve Cord) connectome — the first densely-reconstructed adult fly connectome that unites brain and ventral nerve cord. This repository accompanies:
+Data pre-processing pipeline for the [**BANC** (Brain And Nerve Cord) connectome](https://doi.org/10.1038/s41586-026-10735-w) — the first densely-reconstructed adult fly connectome that unites brain and ventral nerve cord. This repository accompanies:
 
-> Bates, Phelps, Kim, Yang, et al. **Distributed control circuits across a brain-and-cord connectome.** *bioRxiv* (2025). <https://doi.org/10.1101/2025.07.31.667571>
+> Bates AS, Phelps JS, Kim M, Yang HHJ, *et al.* (2026). *Distributed control circuits across a brain-and-cord connectome.* **Nature** (open access). <https://doi.org/10.1038/s41586-026-10735-w>. Preprint: bioRxiv 2025.07.31.667571 (v3), <https://www.biorxiv.org/content/10.1101/2025.07.31.667571v3>.
 
 `bancpipeline` is the project's post-proofreading pipeline. It produces the analysis-ready data files released alongside the paper: skeletonization, cross-dataset neuron matching (NBLAST + connectivity), axon–dendrite splitting, neuropil assignment to synapses, neurotransmitter and metric enrichment, and consolidated per-neuron metadata. Downstream paper analyses live in the sister repository [`BANC-project`](https://github.com/htem/BANC-project); end-user data access lives in [`bancr`](https://github.com/natverse/bancr) (R) and [`banc`](https://pypi.org/project/banc/) (Python).
 
@@ -332,13 +333,20 @@ If you are HMS-affiliated and want to re-run a stage, start at [`docs/pipeline.m
 
 If you use `bancpipeline` outputs, please cite the paper:
 
+> Bates AS, Phelps JS, Kim M, Yang HHJ, Matsliah A, Ajabi Z, Perlman E, *et al.* (2026).
+> *Distributed control circuits across a brain-and-cord connectome.*
+> **Nature** (open access). <https://doi.org/10.1038/s41586-026-10735-w>
+> Preprint: bioRxiv 2025.07.31.667571 (v3), <https://www.biorxiv.org/content/10.1101/2025.07.31.667571v3>
+
 ```bibtex
-@article{bates2025banc,
+@article{bates2026banc,
   title   = {Distributed control circuits across a brain-and-cord connectome},
   author  = {Bates, Alexander S. and Phelps, Jasper S. and Kim, Minsu and Yang, Helen H. and others},
-  journal = {bioRxiv},
-  year    = {2025},
-  doi     = {10.1101/2025.07.31.667571}
+  journal = {Nature},
+  year    = {2026},
+  doi     = {10.1038/s41586-026-10735-w},
+  url     = {https://doi.org/10.1038/s41586-026-10735-w},
+  note    = {Open access. Preprint v3: https://www.biorxiv.org/content/10.1101/2025.07.31.667571v3}
 }
 ```
 
