@@ -1,6 +1,6 @@
 {
   "title": "bancpipeline: Data pre-processing pipeline for the BANC connectome",
-  "description": "Post-proofreading pipeline for the Brain And Nerve Cord (BANC) connectome (Bates, Phelps, Kim, Yang et al., 2026, Nature, doi:10.1038/s41586-026-10735-w). Produces the analysis-ready data files released alongside the paper: skeletonization, cross-dataset neuron matching (NBLAST + connectivity), axon-dendrite splitting, neuropil assignment to synapses, neurotransmitter and metric enrichment, and consolidated per-neuron metadata. Headline algorithmic contribution: annealed morphology + connectivity cell-type alignment, paper Methods \u00a7'Automated typing by morphology and connectivity'.",
+  "description": "Post-proofreading pipeline for the Brain And Nerve Cord (BANC) connectome (Bates, Phelps, Kim, Yang et al., 2026, Nature, open access; doi: 10.1038/s41586-026-10735-w; preprint v3: https://www.biorxiv.org/content/10.1101/2025.07.31.667571v3). Produces the analysis-ready data files released alongside the paper: skeletonization, cross-dataset neuron matching (NBLAST + connectivity), axon-dendrite splitting, neuropil assignment to synapses, neurotransmitter and metric enrichment, and consolidated per-neuron metadata. Headline algorithmic contribution: annealed morphology + connectivity cell-type alignment, paper Methods \u00a7'Automated typing by morphology and connectivity'.",
   "license": "GPL-3.0-only",
   "upload_type": "software",
   "access_right": "open",
